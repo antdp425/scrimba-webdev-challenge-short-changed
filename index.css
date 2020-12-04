@@ -83,3 +83,25 @@ html, body {
    display: inline-block;
    font-size: 1.2rem;
 }
+
+.buttons{
+   display: flex;
+   justify-content: center;
+}
+
+button{
+   font-size: 1.5rem;
+   height: 50px;
+   width: auto;
+   margin: 5px;
+}
+
+#prevButton{
+   background-color: red;
+   color: white
+}
+
+#nextButton{
+   background-color: green;
+   color: white
+}

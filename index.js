@@ -32,8 +32,6 @@ const pennyCounter = document.getElementById("penny-count");
 let sampleTest = testPurses[0];
 let { quarters, dimes, nickels, pennies, price } = sampleTest;
 console.log(sampleTest);
-console.log(testPurses)
-console.log(testPurses)
 
 // Your code here 👇
 
