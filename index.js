@@ -30,7 +30,6 @@ const nickelCounter = document.getElementById("nickel-count");
 const pennyCounter = document.getElementById("penny-count");
 
 let sampleTest = testPurses[0];
-console.log(sampleTest);
 
 // Your code here 👇
 
@@ -44,7 +43,6 @@ function enoughChange() {
   let { quarters, dimes, nickels, pennies, price } = sampleTest;
   let total = purseTotal(quarters, dimes, nickels, pennies);
   updateTotals(quarters, dimes, nickels, pennies);
-  console.log(total);
   if (total >= price) {
     purchaseConfirmation.style.backgroundColor = "green";
     return `With $${total} in coins, you can afford this $${price} purchase`;
@@ -91,22 +89,27 @@ function purseTotal(quarters, dimes, nickels, pennies) {
 
 prevButton.addEventListener("click", () => {
   if (currentTest >= 1) {
-    currentTest--;
-    sampleTest = testPurses[currentTest];
-    console.log(currentTest);
-    let { quarters, dimes, nickels, pennies, price } = sampleTest;
-    updateTotals(quarters, dimes, nickels, pennies);
-    purchaseConfirmation.innerText = enoughChange(price);
+    prevCase();
   }
 });
 
 nextButton.addEventListener("click", () => {
   if (currentTest <= testPurses.length - 2) {
-    currentTest++;
-    sampleTest = testPurses[currentTest];
-    console.log(currentTest);
-    let { quarters, dimes, nickels, pennies, price } = sampleTest;
-    updateTotals(quarters, dimes, nickels, pennies);
-    purchaseConfirmation.innerText = enoughChange(price);
+    nextCase();
   }
 });
+
+function prevCase() {
+  currentTest--;
+  sampleTest = testPurses[currentTest];
+  let { quarters, dimes, nickels, pennies, price } = sampleTest;
+  updateTotals(quarters, dimes, nickels, pennies);
+  purchaseConfirmation.innerText = enoughChange(price);
+}
+function nextCase() {
+  currentTest++;
+  sampleTest = testPurses[currentTest];
+  let { quarters, dimes, nickels, pennies, price } = sampleTest;
+  updateTotals(quarters, dimes, nickels, pennies);
+  purchaseConfirmation.innerText = enoughChange(price);
+}
