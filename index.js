@@ -30,20 +30,35 @@ const nickelCounter = document.getElementById("nickel-count");
 const pennyCounter = document.getElementById("penny-count");
 
 let sampleTest = testPurses[0];
-let { quarters, dimes, nickels, pennies, price } = sampleTest;
 console.log(sampleTest);
 
 // Your code here 👇
 
-purchaseConfirmation.innerText = enoughChange(price)
+let currentTest = 0;
+const prevButton = document.getElementById("prevButton");
+const nextButton = document.getElementById("nextButton");
 
-function enoughChange(price) {
+purchaseConfirmation.innerText = enoughChange(sampleTest);
+
+function enoughChange() {
+  let { quarters, dimes, nickels, pennies, price } = sampleTest;
+  let total = purseTotal(quarters, dimes, nickels, pennies);
+  updateTotals(quarters, dimes, nickels, pennies);
+  console.log(total);
+  if (total >= price) {
+    purchaseConfirmation.style.backgroundColor = "green";
+    return `With $${total} in coins, you can afford this $${price} purchase`;
+  } else {
+    purchaseConfirmation.style.backgroundColor = "darkred";
+    return `With $${total} in coins, you can't afford this $${price} purchase`;
+  }
+}
+
+function updateTotals(quarters, dimes, nickels, pennies) {
   quarterCounter.innerText = `${quarters}`;
   dimeCounter.innerText = `${dimes}`;
   nickelCounter.innerText = `${nickels}`;
   pennyCounter.innerText = `${pennies}`;
-  console.log(purseTotal())
-  return purseTotal() >= price;
 }
 
 function quarterTotal(count) {
@@ -62,11 +77,36 @@ function pennyTotal(count) {
   return count * 0.01;
 }
 
-function purseTotal() {
+function purseTotal(quarters, dimes, nickels, pennies) {
   return (
-    quarterTotal(quarters) +
-    nickelTotal(nickels) +
-    dimeTotal(dimes) +
-    pennyTotal(pennies)
+    Math.round(
+      (quarterTotal(quarters) +
+        nickelTotal(nickels) +
+        dimeTotal(dimes) +
+        pennyTotal(pennies)) *
+        100
+    ) / 100
   );
 }
+
+prevButton.addEventListener("click", () => {
+  if (currentTest >= 1) {
+    currentTest--;
+    sampleTest = testPurses[currentTest];
+    console.log(currentTest);
+    let { quarters, dimes, nickels, pennies, price } = sampleTest;
+    updateTotals(quarters, dimes, nickels, pennies);
+    purchaseConfirmation.innerText = enoughChange(price);
+  }
+});
+
+nextButton.addEventListener("click", () => {
+  if (currentTest <= testPurses.length - 2) {
+    currentTest++;
+    sampleTest = testPurses[currentTest];
+    console.log(currentTest);
+    let { quarters, dimes, nickels, pennies, price } = sampleTest;
+    updateTotals(quarters, dimes, nickels, pennies);
+    purchaseConfirmation.innerText = enoughChange(price);
+  }
+});
